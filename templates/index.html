@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone 11 Diagnostic</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <nav>
+            <div class="logo">iDiagno</div>
+
+            <div class="nav-links">
+
+                <a href="{{ url_for('history') }}">
+                    History
+                </a>
+
+            </div>
+        </nav>
+
+        <div class="hero-content">
+
+            <h1>
+                Diagnose Your iPhone 11
+                Before It Gets Worse.
+            </h1>
+
+            <p>
+                Smart diagnostic system designed to help users
+                identify early iPhone hardware problems safely,
+                quickly, and efficiently.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#diagnosis" class="primary-btn">
+                    Start Now
+                </a>
+
+                <a href="#about" class="secondary-btn">
+                    Learn More
+                </a>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ABOUT -->
+
+    <section class="about" id="about">
+
+        <h2>Why This Website Exists</h2>
+
+        <p>
+            This platform was built to help iPhone users
+            perform early-stage diagnostics before visiting
+            a repair technician.
+        </p>
+
+        <p>
+            Using rule-based logic and diagnostic analysis,
+            users can understand possible hardware issues
+            such as battery failure, IC power problems,
+            charging connector damage, and display issues.
+        </p>
+
+    </section>
+
+    <!-- FEATURES -->
+
+    <section class="features">
+
+        <div class="feature-card">
+            <h3>Fast Diagnosis</h3>
+            <p>Instant hardware analysis within seconds.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Secure Data</h3>
+            <p>User history stored securely with hashed identity.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>iPhone Focused</h3>
+            <p>Designed specifically for iPhone 11 diagnostics.</p>
+        </div>
+
+    </section>
+
+    <!-- DIAGNOSIS -->
+
+    <section class="diagnosis" id="diagnosis">
+
+        <h2>Start Your Diagnosis</h2>
+
+        <form method="POST">
+
+            <div class="job-section">
+
+                <label for="job">
+                    Daily Activity
+                </label>
+
+                <select name="job" id="job">
+
+                    <option value="driver">
+                        Online Driver
+                    </option>
+
+                    <option value="creator">
+                        Content Creator
+                    </option>
+
+                    <option value="office">
+                        Office Worker
+                    </option>
+
+                    <option value="student">
+                        Student
+                    </option>
+
+                    <option value="casual">
+                        Casual User
+                    </option>
+
+                </select>
+
+            </div>
+
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <label>
+                <input type="checkbox" name="symptom" value="overheat">
+                Device overheating frequently
+            </label>
+
+            <label>
+                <input type="checkbox" name="symptom" value="battery_drop">
+                Battery drains very quickly
+            </label>
+
+            <label>
+                <input type="checkbox" name="symptom" value="charger_fail">
+                Charging problem detected
+            </label>
+
+            <label>
+                <input type="checkbox" name="symptom" value="face_id">
+                Face ID not functioning
+            </label>
+
+            <label>
+                <input type="checkbox" name="symptom" value="bootloop">
+                Device bootloop / restarting
+            </label>
+
+            <label>
+                <input type="checkbox" name="symptom" value="screen_green">
+                Green screen issue
+            </label>
+
+            <button type="submit">
+                Analyze Device
+            </button>
+
+        </form>
+
+        {% if result %}
+
+        <div class="result-box">
+
+            <h3>Diagnosis Result</h3>
+
+            <p>{{ result }}</p>
+
+        </div>
+
+        {% endif %}
+
+
+        <div class="result-box">
+
+            <h2>{{ result }}</h2>
+
+            <div class="urgency-badge">
+                {{ urgency }}
+            </div>
+
+            <h3>Why This Happens</h3>
+            <p>{{ explanation.cause }}</p>
+
+            <h3>Risk If Ignored</h3>
+            <p>{{ explanation.impact }}</p>
+
+            <h3>Recommendation</h3>
+            <p>{{ explanation.recommendation }}</p>
+
+        </div>
+
+        <div class="decision-box">
+
+            <h3>
+                Will you repair your device immediately?
+            </h3>
+
+            <form action="/decision" method="POST">
+
+                <input type="hidden" name="diagnosis" value="{{ result }}">
+
+                <input type="hidden" name="urgency" value="{{ urgency }}">
+
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <button type="submit" name="decision" value="yes">
+
+                    Yes, Repair Now
+
+                </button>
+
+                <button type="submit" name="decision" value="no">
+
+                    Maybe Later
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+</body>
+
+</html>
