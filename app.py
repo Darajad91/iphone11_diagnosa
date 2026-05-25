@@ -3,7 +3,8 @@ import sqlite3
 import hashlib
 from datetime import datetime, timedelta
 import secrets
-
+import os
+PORT = int(os.environ.get("PORT", 5000))
 
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -210,7 +211,7 @@ def analyze_urgency(result, job):
 
 damage_explanations = {
 
-    "IC Power / Battery ": {
+    "": {
 
         "cause": """
         Kerusakan biasanya terjadi akibat penggunaan
@@ -390,5 +391,12 @@ def history():
 # MAIN
 # =========================
 if __name__ == "__main__":
+
     init_db()
-    app.run(debug=True)
+
+    PORT = int(os.environ.get("PORT", 5000))
+
+    app.run(
+        host="0.0.0.0",
+        port=PORT
+    )
