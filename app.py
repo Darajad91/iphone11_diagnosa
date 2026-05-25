@@ -52,7 +52,8 @@ app.config['SECRET_KEY'] = secrets.token_hex(32)
 limiter = Limiter(
     get_remote_address,
     app=app,
-    default_limits=["20 per minute"]
+    default_limits=["10 per minute"],
+    storage_uri="memory://"
 )
 
 DATABASE = "database.db"
